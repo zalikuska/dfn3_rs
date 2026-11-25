@@ -14,3 +14,16 @@ and convolution taps remain FP32. SHA256:
 DeepFilterNet code and model weights are MIT OR Apache-2.0. Original license
 texts are included in LICENSE-MIT and LICENSE-APACHE. This is an independent
 implementation, not an official DeepFilterNet release.
+
+Changes in this copy (vendored into zali-messenger core/vendor/dfn3_rs from crates.io
+dfn3_rs 0.1.2, upstream commit d65d0d12227dc8076ee9ac33b4ff52b1c2e7f1bb, 2026-11-25):
+
+- src/simd.rs: NEON kernels for aarch64 (packed GEMM/GEMV with FP16 weights converted by
+  FCVTL/FCVTL2, GRU gates and tanh), mirroring the x86 AVX2 ones. Upstream runs the scalar
+  path on aarch64: ~2.1 ms per 10 ms frame on Apple M-series, 64 us with these kernels.
+  Output matches upstream's scalar path and the reference DeepFilterNet implementation
+  (deep_filter / deep-filter-rt) within -84 dB.
+- src/weights.rs: `expand` is unused on aarch64 (allow(dead_code)); src/simd.rs: the `avx2`
+  flag is unused off x86_64 (allow(dead_code)).
+- Cargo.toml rewritten (publish = false); Cargo.lock, README badges and CI files dropped.
+  weights/dfn3.bin is unchanged (SHA256 above).

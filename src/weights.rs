@@ -83,6 +83,8 @@ impl Data {
     }
 }
 
+// aarch64 converts FP16 in the NEON kernel (src/simd.rs).
+#[cfg_attr(target_arch = "aarch64", allow(dead_code))]
 pub(crate) fn expand(w: u16) -> f32 {
     let sign = ((w & 0x8000) as u32) << 16;
     let exp = (w >> 10) & 31;

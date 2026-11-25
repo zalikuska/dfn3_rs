@@ -1,13 +1,14 @@
+# Копия dfn3_rs 0.1.2 с crates.io (https://github.com/TanixLu/dfn3_rs, коммит d65d0d1) —
+# шумодав DeepFilterNet3 для core/src/audio_processing.rs. Своё — NEON-ядра для
+# aarch64 в src/simd.rs (у оригинала там скалярный путь: ~21 % ядра M-серии на поток
+# против ~2 % с ними). Что изменено — NOTICE.
 [package]
 name = "dfn3_rs"
 version = "0.1.2"
 edition = "2024"
 description = "Allocation-free real-time DeepFilterNet3 speech enhancement"
 license = "MIT OR Apache-2.0"
-readme = "README.md"
-repository = "https://github.com/TanixLu/dfn3_rs"
-keywords = ["audio", "speech", "denoise", "deepfilternet", "simd"]
-categories = ["multimedia::audio"]
+publish = false
 
 [features]
 default = ["embedded-model"]
@@ -15,7 +16,3 @@ embedded-model = []
 
 [dependencies]
 realfft = "3.4"
-
-[profile.release]
-codegen-units = 1
-lto = "thin"
